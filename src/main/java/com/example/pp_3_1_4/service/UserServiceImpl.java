@@ -81,9 +81,21 @@ public class UserServiceImpl implements UserService{
     }
     @Override
     @Transactional
-    public User save(User user) {
-        user.setPassword(getPasswordEncoder().encode(user.getPassword()));
-        return userRepository.save(user);
+    public void saveUser(User user) {
+        if (user.getId() != null) {
+            Optional<User> userToUpdate = userRepository.findById(user.getId());
+            if (userToUpdate.isPresent()) {
+                if (!userToUpdate.get().getPassword().equals(user.getPassword())) {
+                    user.setPassword(passwordEncoder.encode(user.getPassword()));
+                }
+            } else {
+                user.setPassword(passwordEncoder.encode(user.getPassword()));
+            }
+        } else {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+
+        userRepository.save(user);
     }
 
     @Override

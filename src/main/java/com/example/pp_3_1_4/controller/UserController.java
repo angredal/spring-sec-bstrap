@@ -59,7 +59,7 @@ public class UserController {
         if(user.getRoles().size() == 0) {
             user.setRoles(Set.of(userService.getRoleRepository().findRoleByName("USER")));
         }
-        userService.save(user);
+        userService.saveUser(user);
         return "redirect:/admin";
     }
 
@@ -74,7 +74,7 @@ public class UserController {
         if(user.getRoles().size() == 0) {
             user.setRoles(Set.of(userService.getRoleRepository().findRoleByName("USER")));
         }
-        userService.save(user);
+        userService.saveUser(user);
         return "redirect:/admin";
     }
 }
